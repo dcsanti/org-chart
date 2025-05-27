@@ -1,58 +1,65 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import Tree from "@/components/Tree";
+import { useEffect, useState } from "react";
+import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
+    const [orgData, setOrgData] = useState();
+
+    useEffect(() => {
+        const data = [{
+            companyId: 1,
+            company: 'Your Company Name',
+            employees: [{
+                id: 1,
+                firstName: 'John',
+                lastName: 'Doe',
+                role: 'CEO',
+                reportsTo: null,
+                address: {
+                    streetNumber: '22',
+                    address1: 'Fake St',
+                    address2: 'Corner of Fake St and Real St',
+                    city: 'Christchurch',
+                    country: 'AU'
+                }
+            }, {
+                id: 2,
+                firstName: 'Loretta',
+                lastName: 'Smith',
+                role: 'CTO',
+                reportsTo: null,
+                address: {
+                    streetNumber: '123',
+                    address1: 'Main St',
+                    address2: 'Suite 100',
+                    city: 'Springfield',
+                    country: 'NZ'
+                }
+            }],
+        }];
+    
+        const fetchOrg = async (): Promise => {
+            const orgData = await new Promise((resolve) =>
+              setTimeout(() => resolve(data), 1000)
+            );
+
+            setOrgData(orgData);
+            console.log('here', orgData);
+            return orgData;
+          };
+
+        fetchOrg();
+    }, []);
+
+    return (
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+            <ScrollView>
+                {
+                    orgData && <Tree orgData={orgData} />
+                }
+            </ScrollView>
+        </SafeAreaView>
+    );
 }
 
 const styles = StyleSheet.create({
