@@ -48,6 +48,19 @@ export default function HomeScreen() {
                     city: 'Auckland',
                     country: 'NZ'
                 }
+            },{
+                id: 4,
+                firstName: 'Varun',
+                lastName: 'Kumar',
+                role: 'VP of Product',
+                reportsTo: 2,
+                address: {
+                    streetNumber: '88',
+                    address1: 'High St',
+                    address2: '3rd Floor',
+                    city: 'Canberra',
+                    country: 'AU'
+                }
             }],
         }];
     

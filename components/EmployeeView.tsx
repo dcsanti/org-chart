@@ -61,8 +61,10 @@ const EmployeeView = ({selectedEmployee}) => {
                                     padding: 20,
                                     margin: 10,
                                     borderRadius: 10,
+                                    display: 'flex',
                                 }}>
                                     <Text>{directReport.firstName} {directReport.lastName}</Text>
+                                    <Text>{directReport.role}</Text>
                                 </View>
                             </TouchableOpacity>
                         ))}
