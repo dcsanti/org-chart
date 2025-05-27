@@ -35,6 +35,19 @@ export default function HomeScreen() {
                     city: 'Springfield',
                     country: 'NZ'
                 }
+            }, {
+                id: 3,
+                firstName: 'Charlie',
+                lastName: 'Bean',
+                role: 'VP of Engineering',
+                reportsTo: 2,
+                address: {
+                    streetNumber: '32A',
+                    address1: 'Central Ave',
+                    address2: 'Room 5',
+                    city: 'Auckland',
+                    country: 'NZ'
+                }
             }],
         }];
     

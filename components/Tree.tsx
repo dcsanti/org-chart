@@ -10,7 +10,7 @@ const Tree = ({orgData}) => {
 
     const handleSelectEmployee = (employee) => {
         const data = {
-            selected: employee,
+            details: employee,
             managers: findSuperiors(employee),
             directReports: findDirectReports(employee),
             peers: findPeers(employee),
