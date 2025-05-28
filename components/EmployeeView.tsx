@@ -1,6 +1,8 @@
 import Entypo from '@expo/vector-icons/Entypo';
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
+import DirectReportsList from './DirectReportsList';
+import PeersList from './PeersList';
 
 const EmployeeView = ({selectedEmployee}) => {
     return (
@@ -46,59 +48,11 @@ const EmployeeView = ({selectedEmployee}) => {
                 </View>
             </TouchableOpacity>
             {
-                selectedEmployee.directReports.length > 0 &&
-                <View style={{
-                    padding: 10,
-                }}>
-                    <Text>Direct Reports ({selectedEmployee.directReports.length})</Text>
-                    <TouchableOpacity onPress={() => console.log('get employee')}>
-                        {selectedEmployee.directReports.map((directReport) => (
-                            <TouchableOpacity key={directReport.id} onPress={() => console.log('directReport pressed')}>
-                                <View style={{
-                                    backgroundColor: 'white',
-                                    borderColor: 'black',
-                                    borderWidth: 1,
-                                    padding: 20,
-                                    margin: 10,
-                                    borderRadius: 10,
-                                    display: 'flex',
-                                }}>
-                                    <Text>{directReport.firstName} {directReport.lastName}</Text>
-                                    <Text>{directReport.role}</Text>
-                                </View>
-                            </TouchableOpacity>
-                        ))}
-                    </TouchableOpacity>
-                </View>
+                selectedEmployee.directReports.length > 0 && <DirectReportsList directReports={selectedEmployee.directReports} />
             }
 
             {
-                selectedEmployee.peers.length > 0 &&
-                <View style={{
-                    padding: 10,
-                }}>
-                    <Text>
-                        {selectedEmployee.details.firstName} {selectedEmployee.details.firstName} works with
-                    </Text>
-                    <TouchableOpacity onPress={() => console.log('get employee')}>
-                        {selectedEmployee.peers.map((peer) => (
-                            <TouchableOpacity key={peer.id} onPress={() => console.log('peer pressed')}>
-                                <View style={{
-                                    backgroundColor: 'white',
-                                    borderColor: 'black',
-                                    borderWidth: 1,
-                                    padding: 20,
-                                    margin: 10,
-                                    borderRadius: 10,
-                                    display: 'flex',
-                                }}>
-                                    <Text>{peer.firstName} {peer.lastName}</Text>
-                                    <Text>{peer.role}</Text>
-                                </View>
-                            </TouchableOpacity>
-                        ))}
-                    </TouchableOpacity>
-                </View>
+                selectedEmployee.peers.length > 0 && <PeersList selectedEmployee={selectedEmployee} />
             }
         </>
     )
