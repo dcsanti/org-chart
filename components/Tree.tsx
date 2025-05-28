@@ -28,10 +28,6 @@ const Tree = ({orgData}) => {
         setViewState('employeeDetails');
     };
     
-    const findCompany = (companyName) => {
-        return orgData.filter((org) => org.companyName === companyName);
-    }
-    
     const findDirectReports = (selected, orgData) => {
         return orgData.employees.filter((employee) => employee.reportsTo === selected.id);
     }
@@ -52,12 +48,7 @@ const Tree = ({orgData}) => {
     
         return managers.reverse();
     }
-    
-    const findEmployee = (employeeId) => {
-        return orgData.employees.find((employee) => employee.id === employeeId);
-    }
-    
-    // optional
+
     const findPeers = (selected, orgData) => {
         return orgData.employees.filter((employee) => employee.reportsTo === selected.reportsTo && employee.id !== selected.id);
     }
