@@ -35,7 +35,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="add"
         options={{
           title: 'Add',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="plus.circle" color={color} />,
