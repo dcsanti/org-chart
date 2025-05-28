@@ -6,7 +6,8 @@ import TopLevels from './TopLevels';
 const Tree = ({orgData}) => {
     const [selectedEmployee, setSelectedEmployee] = React.useState(null);
     const [topLevels, setTopLevels] = React.useState([]);
-    const [viewState, setViewState] = React.useState('topLevels'); // 'topLevels' or 'employeeDetails'
+    const [selectedOrg, setSelectedOrg] = React.useState(null);
+    const [viewState, setViewState] = React.useState('allCompanies'); // 'topLevels' or 'employeeDetails'
 
     const handleSelectEmployee = (employee) => {
         if (Object.keys(employee).includes('details')) {
@@ -18,9 +19,9 @@ const Tree = ({orgData}) => {
 
         const data = {
             details: employee,
-            managers: findSuperiors(employee),
-            directReports: findDirectReports(employee),
-            peers: findPeers(employee),
+            managers: findSuperiors(employee, selectedOrg),
+            directReports: findDirectReports(employee, selectedOrg),
+            peers: findPeers(employee, selectedOrg),
         }
 
         setSelectedEmployee(data);
@@ -31,16 +32,16 @@ const Tree = ({orgData}) => {
         return orgData.filter((org) => org.companyName === companyName);
     }
     
-    const findDirectReports = (selected) => {
-        return orgData[0].employees.filter((employee) => employee.reportsTo === selected.id);
+    const findDirectReports = (selected, orgData) => {
+        return orgData.employees.filter((employee) => employee.reportsTo === selected.id);
     }
     
-    const findSuperiors = (selected) => {
+    const findSuperiors = (selected, orgData) => {
         const managers = [];
         let currentEmployee = selected;
     
         while (currentEmployee.reportsTo) {
-            const manager = orgData[0].employees.find(employee => employee.id === currentEmployee.reportsTo);
+            const manager = orgData.employees.find(employee => employee.id === currentEmployee.reportsTo);
             if (!manager) {
                 break;
             }
@@ -53,18 +54,19 @@ const Tree = ({orgData}) => {
     }
     
     const findEmployee = (employeeId) => {
-        return orgData[0].employees.find((employee) => employee.id === employeeId);
+        return orgData.employees.find((employee) => employee.id === employeeId);
     }
     
     // optional
-    const findPeers = (selected) => {
-        return orgData[0].employees.filter((employee) => employee.reportsTo === selected.reportsTo && employee.id !== selected.id);
+    const findPeers = (selected, orgData) => {
+        return orgData.employees.filter((employee) => employee.reportsTo === selected.reportsTo && employee.id !== selected.id);
     }
 
-    const findTopLevelEmployees = () => {
-        const topLevels = orgData[0].employees.filter((employee) => employee.reportsTo === null);
+    const findTopLevelEmployees = (orgData) => {
+        const topLevels = orgData.employees.filter((employee) => employee.reportsTo === null);
         setTopLevels(topLevels);
         setViewState('topLevels');
+        setSelectedOrg(orgData);
     }
 
     const isTopLevel = () => {
@@ -75,36 +77,131 @@ const Tree = ({orgData}) => {
         return viewState === 'employeeDetails';
     }
 
+    const isViewAllCompanies = () => {
+        return viewState === 'allCompanies';
+    }
+
     return (
-        <TouchableOpacity onPress={() => findTopLevelEmployees()}>
-            <View style={{
-                display: 'flex',
-            }}>
-                <View style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: 'white',
-                    borderColor: 'black',
-                    borderWidth: 1,
-                    padding: 20,
-                    margin: 10,
-                    borderRadius: 10,
-                    display: 'flex',
-                }}>
-                    <Text>
-                        {orgData && orgData[0].company}
-                    </Text>
-                </View>
+        <>
+            {
+                !isViewAllCompanies() && (
+                    <TouchableOpacity onPress={() => setViewState('allCompanies')}>
+                        <View style={{
+                            display: 'flex',
+                        }}>
+                            <View style={{
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                backgroundColor: 'white',
+                                borderColor: 'black',
+                                borderWidth: 1,
+                                padding: 20,
+                                margin: 10,
+                                borderRadius: 10,
+                                display: 'flex',
+                            }}>
+                                <Text>
+                                    View All Companies
+                                </Text>
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+                )
+            }
+            {
+                orgData && orgData.length > 0 && isViewAllCompanies() && (
+                    <>
+                        <Text style={{fontSize: 20, fontWeight: 'bold', textAlign: 'left', marginLeft: 10, marginBottom: 10}}>
+                            Companies
+                        </Text>
+                        {
+                            orgData.map(org => (
+                                <TouchableOpacity key={org.companyId} onPress={() => findTopLevelEmployees(org)}>
+                                    <View style={{
+                                        display: 'flex',
+                                    }}>
+                                        <View style={{
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            backgroundColor: 'white',
+                                            borderColor: 'black',
+                                            borderWidth: 1,
+                                            padding: 20,
+                                            margin: 10,
+                                            borderRadius: 10,
+                                            display: 'flex',
+                                        }}>
+                                            <Text>
+                                                {org.company}
+                                            </Text>
+                                        </View>
+                                    </View>
+                                </TouchableOpacity>
+                            ))
+                        }
+                    </>
+                )
+            }
 
-                {
-                    isTopLevel() && <TopLevels data={topLevels} handleSelectEmployee={handleSelectEmployee} />
-                }
+            {
+                isTopLevel() &&
+                 (
+                    <>
+                        <TouchableOpacity>
+                            <View style={{
+                                display: 'flex',
+                            }}>
+                                <View style={{
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    backgroundColor: 'white',
+                                    borderColor: 'black',
+                                    borderWidth: 1,
+                                    padding: 20,
+                                    margin: 10,
+                                    borderRadius: 10,
+                                    display: 'flex',
+                                }}>
+                                    <Text>
+                                        {selectedOrg && selectedOrg?.company}
+                                    </Text>
+                                </View>
+                            </View>
+                        </TouchableOpacity>
+                        <TopLevels data={topLevels} handleSelectEmployee={handleSelectEmployee}/>
+                    </>
+                )
+            }
 
-                {
-                    isEmployeeDetails() && <EmployeeView selectedEmployee={selectedEmployee} handleSelectEmployee={handleSelectEmployee}/>
-                }
-            </View>
-        </TouchableOpacity>
+            {
+                isEmployeeDetails() && (
+                    <>
+                        <TouchableOpacity>
+                            <View style={{
+                                display: 'flex',
+                            }}>
+                                <View style={{
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    backgroundColor: 'white',
+                                    borderColor: 'black',
+                                    borderWidth: 1,
+                                    padding: 20,
+                                    margin: 10,
+                                    borderRadius: 10,
+                                    display: 'flex',
+                                }}>
+                                    <Text>
+                                        {selectedOrg && selectedOrg?.company}
+                                    </Text>
+                                </View>
+                            </View>
+                        </TouchableOpacity>
+                        <EmployeeView selectedEmployee={selectedEmployee} handleSelectEmployee={handleSelectEmployee}/>
+                    </>
+                )
+            }
+        </>
     );
 }
 
