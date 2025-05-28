@@ -88,6 +88,8 @@ const Tree = ({orgData}) => {
                     <TouchableOpacity onPress={() => setViewState('allCompanies')}>
                         <View style={{
                             display: 'flex',
+                            alignItems: 'center',
+                            width: '100%',
                         }}>
                             <View style={{
                                 alignItems: 'center',
@@ -99,6 +101,7 @@ const Tree = ({orgData}) => {
                                 margin: 10,
                                 borderRadius: 10,
                                 display: 'flex',
+                                width: 350,
                             }}>
                                 <Text>
                                     View All Companies
@@ -119,6 +122,8 @@ const Tree = ({orgData}) => {
                                 <TouchableOpacity key={org.companyId} onPress={() => findTopLevelEmployees(org)}>
                                     <View style={{
                                         display: 'flex',
+                                        alignItems: 'center',
+                                        width: '100%',
                                     }}>
                                         <View style={{
                                             alignItems: 'center',
@@ -130,6 +135,7 @@ const Tree = ({orgData}) => {
                                             margin: 10,
                                             borderRadius: 10,
                                             display: 'flex',
+                                            width: 350,
                                         }}>
                                             <Text>
                                                 {org.company}
@@ -142,13 +148,12 @@ const Tree = ({orgData}) => {
                     </>
                 )
             }
-
             {
-                isTopLevel() &&
-                 (
+                isTopLevel() && (
                     <>
                         <TouchableOpacity>
                             <View style={{
+                                alignItems: 'center',
                                 display: 'flex',
                             }}>
                                 <View style={{
@@ -158,9 +163,11 @@ const Tree = ({orgData}) => {
                                     borderColor: 'black',
                                     borderWidth: 1,
                                     padding: 20,
-                                    margin: 10,
+                                    marginHorizontal: 10,
+                                    marginTop: 10,
+                                    marginBottom: 0,
                                     borderRadius: 10,
-                                    display: 'flex',
+                                    width: 350,
                                 }}>
                                     <Text>
                                         {selectedOrg && selectedOrg?.company}
@@ -178,6 +185,7 @@ const Tree = ({orgData}) => {
                     <>
                         <TouchableOpacity>
                             <View style={{
+                                alignItems: 'center',
                                 display: 'flex',
                             }}>
                                 <View style={{
@@ -187,9 +195,11 @@ const Tree = ({orgData}) => {
                                     borderColor: 'black',
                                     borderWidth: 1,
                                     padding: 20,
-                                    margin: 10,
+                                    marginHorizontal: 10,
+                                    marginTop: 10,
+                                    marginBottom: 0,
                                     borderRadius: 10,
-                                    display: 'flex',
+                                    width: 350,
                                 }}>
                                     <Text>
                                         {selectedOrg && selectedOrg?.company}
@@ -197,6 +207,16 @@ const Tree = ({orgData}) => {
                                 </View>
                             </View>
                         </TouchableOpacity>
+                        <View style={{
+                            alignItems: 'center',
+                            width: '100%'
+                        }}>
+                            <View style={{
+                                width: 2,
+                                height: 20,
+                                backgroundColor: 'black',
+                            }}/>
+                        </View>
                         <EmployeeView selectedEmployee={selectedEmployee} handleSelectEmployee={handleSelectEmployee}/>
                     </>
                 )

@@ -6,23 +6,27 @@ const DirectReportsList = ({directReports, handleSelectEmployee}) => {
         <View style={{
             padding: 10,
             display: 'flex',
+            marginTop: 10,
         }}>
             <Text>Direct Reports ({directReports.length})</Text>
-            {directReports.map((directReport) => (
-                <TouchableOpacity key={directReport.id} onPress={() => handleSelectEmployee(directReport)}>
-                    <View style={{
-                        backgroundColor: 'white',
-                        borderColor: 'black',
-                        borderWidth: 1,
-                        padding: 20,
-                        marginVertical: 10,
-                        borderRadius: 10,
-                        display: 'flex',
-                    }}>
-                        <Text style={{fontWeight: 'light', fontSize: 15}}>{directReport.firstName} {directReport.lastName}</Text>
-                        <Text style={{fontSize: 12, color: 'gray'}}>{directReport.role}</Text>
-                    </View>
-                </TouchableOpacity>
+            {directReports.map((employee) => (
+                <View key={employee.id} style={{ alignItems: 'center', width: '100%' }}>
+                    <TouchableOpacity onPress={() => handleSelectEmployee(employee)}>
+                        <View style={{
+                            backgroundColor: 'white',
+                            borderColor: 'black',
+                            borderWidth: 1,
+                            padding: 20,
+                            marginHorizontal: 10,
+                            marginVertical: 10,
+                            borderRadius: 10,
+                            width: 350,
+                        }}>
+                            <Text style={{fontWeight: 'light', fontSize: 15}}>{employee.firstName} {employee.lastName}</Text>
+                            <Text style={{fontSize: 12, color: 'gray'}}>{employee.role}</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
             ))}
         </View>
     )
