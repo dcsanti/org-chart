@@ -15,8 +15,8 @@ const ManagersList = ({managers, handleSelectEmployee}) => {
                         borderRadius: 10,
                         display: 'flex',
                     }}>
-                        <Text>{manager.firstName} {manager.lastName}</Text>
-                        <Text>{manager.role}</Text>
+                        <Text style={{fontWeight: 'light', fontSize: 15}}>{manager.firstName} {manager.lastName}</Text>
+                        <Text style={{fontSize: 12, color: 'gray'}}>{manager.role}</Text>
                     </View>
                 </TouchableOpacity>
             ))}

@@ -21,8 +21,8 @@ const PeersList = ({selectedEmployee, handleSelectEmployee}) => {
                         borderRadius: 10,
                         display: 'flex',
                     }}>
-                        <Text>{peer.firstName} {peer.lastName}</Text>
-                        <Text>{peer.role}</Text>
+                        <Text style={{fontWeight: 'light', fontSize: 15}}>{peer.firstName} {peer.lastName}</Text>
+                        <Text style={{fontSize: 12, color: 'gray'}}>{peer.role}</Text>
                     </View>
                 </TouchableOpacity>
             ))}

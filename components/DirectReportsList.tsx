@@ -19,8 +19,8 @@ const DirectReportsList = ({directReports, handleSelectEmployee}) => {
                         borderRadius: 10,
                         display: 'flex',
                     }}>
-                        <Text>{directReport.firstName} {directReport.lastName}</Text>
-                        <Text>{directReport.role}</Text>
+                        <Text style={{fontWeight: 'light', fontSize: 15}}>{directReport.firstName} {directReport.lastName}</Text>
+                        <Text style={{fontSize: 12, color: 'gray'}}>{directReport.role}</Text>
                     </View>
                 </TouchableOpacity>
             ))}
