@@ -8,7 +8,7 @@ export default function HomeScreen() {
     useEffect(() => {
         const data = [{
             companyId: 1,
-            company: 'Your Company Name',
+            company: 'Acme Corp',
             employees: [{
                 id: 1,
                 firstName: 'John',
@@ -70,8 +70,6 @@ export default function HomeScreen() {
             );
 
             setOrgData(orgData);
-            console.log('here', orgData);
-            return orgData;
           };
 
         fetchOrg();

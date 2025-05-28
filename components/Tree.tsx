@@ -68,7 +68,7 @@ const Tree = ({orgData}) => {
         return viewState === 'employeeDetails';
     }
 
-    return (        
+    return (
         <TouchableOpacity onPress={() => findTopLevelEmployees()}>
             <View style={{
                 display: 'flex',
