@@ -27,7 +27,7 @@ export default function HomeScreen() {
                 firstName: 'Loretta',
                 lastName: 'Smith',
                 role: 'CTO',
-                reportsTo: null,
+                reportsTo: 1,
                 address: {
                     streetNumber: '123',
                     address1: 'Main St',

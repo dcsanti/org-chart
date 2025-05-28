@@ -1,15 +1,11 @@
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
-const DirectReportsList = ({directReports, handleSelectEmployee}) => {
+const ManagersList = ({managers, handleSelectEmployee}) => {
     return (
-        <View style={{
-            padding: 10,
-            display: 'flex',
-        }}>
-            <Text>Direct Reports ({directReports.length})</Text>
-            {directReports.map((directReport) => (
-                <TouchableOpacity key={directReport.id} onPress={() => handleSelectEmployee(directReport)}>
+        <View style={{ padding: 10}}>
+            {managers.map((manager) => (
+                <TouchableOpacity key={manager.id} onPress={() => handleSelectEmployee(manager)}>
                     <View style={{
                         backgroundColor: 'white',
                         borderColor: 'black',
@@ -19,8 +15,8 @@ const DirectReportsList = ({directReports, handleSelectEmployee}) => {
                         borderRadius: 10,
                         display: 'flex',
                     }}>
-                        <Text>{directReport.firstName} {directReport.lastName}</Text>
-                        <Text>{directReport.role}</Text>
+                        <Text>{manager.firstName} {manager.lastName}</Text>
+                        <Text>{manager.role}</Text>
                     </View>
                 </TouchableOpacity>
             ))}
@@ -28,4 +24,4 @@ const DirectReportsList = ({directReports, handleSelectEmployee}) => {
     )
 }
 
-export default DirectReportsList;
+export default ManagersList;

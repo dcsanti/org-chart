@@ -23,14 +23,15 @@ const TopLevels = ({data, handleSelectEmployee}) => {
                         <View style={{
                             display: 'flex',
                             flex: 1,
+                            gap: 5
                         }}>
-                            <Text>
+                            <Text style={{fontWeight: 'bold', fontSize: 15}}>
                                 {employee.firstName} {employee.lastName}
                             </Text>
                             <Text>
                                 {employee.role}
                             </Text>
-                            <Text>
+                            <Text style={{fontSize: 12, color: 'gray'}}>
                                 {employee.address.streetNumber} {employee.address.address1}, {employee.address.address2}, {employee.address.city}, {employee.address.country}
                             </Text>
                         </View>

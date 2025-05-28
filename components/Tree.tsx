@@ -9,6 +9,13 @@ const Tree = ({orgData}) => {
     const [viewState, setViewState] = React.useState('topLevels'); // 'topLevels' or 'employeeDetails'
 
     const handleSelectEmployee = (employee) => {
+        if (Object.keys(employee).includes('details')) {
+            setSelectedEmployee(employee);
+            setViewState('employeeDetails');
+
+            return;
+        }
+
         const data = {
             details: employee,
             managers: findSuperiors(employee),
@@ -42,7 +49,7 @@ const Tree = ({orgData}) => {
             currentEmployee = manager;
         }
     
-        return managers;
+        return managers.reverse();
     }
     
     const findEmployee = (employeeId) => {
@@ -94,7 +101,7 @@ const Tree = ({orgData}) => {
                 }
 
                 {
-                    isEmployeeDetails() && <EmployeeView selectedEmployee={selectedEmployee} />
+                    isEmployeeDetails() && <EmployeeView selectedEmployee={selectedEmployee} handleSelectEmployee={handleSelectEmployee}/>
                 }
             </View>
         </TouchableOpacity>

@@ -2,16 +2,22 @@ import Entypo from '@expo/vector-icons/Entypo';
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import DirectReportsList from './DirectReportsList';
+import ManagersList from './ManagersList';
 import PeersList from './PeersList';
 
-const EmployeeView = ({selectedEmployee}) => {
+const EmployeeView = ({selectedEmployee, handleSelectEmployee}) => {
+    console.log('selected', selectedEmployee);
     return (
         <>
-            <TouchableOpacity onPress={() => console.log('Employee pressed', selectedEmployee)}>
+            {
+                selectedEmployee.managers.length > 0 && <ManagersList managers={selectedEmployee.managers} handleSelectEmployee={handleSelectEmployee}/>
+            }
+
+            <TouchableOpacity onPress={() => handleSelectEmployee(selectedEmployee)}>
                 <View key={selectedEmployee.details.id} style={{
                     backgroundColor: 'white',
-                    borderColor: 'black',
-                    borderWidth: 1,
+                    borderColor: 'royalblue',
+                    borderWidth: 2,
                     padding: 20,
                     margin: 10,
                     borderRadius: 10,
@@ -25,14 +31,15 @@ const EmployeeView = ({selectedEmployee}) => {
                         <View style={{
                             display: 'flex',
                             flex: 1,
+                            gap: 5
                         }}>
-                            <Text>
+                            <Text style={{fontWeight: 'bold', fontSize: 15}}>
                                 {selectedEmployee.details.firstName} {selectedEmployee.details.lastName}
                             </Text>
                             <Text>
                                 {selectedEmployee.details.role}
                             </Text>
-                            <Text>
+                            <Text style={{fontSize: 12, color: 'gray'}}>
                                 {selectedEmployee.details.address.streetNumber} {selectedEmployee.details.address.address1}, {selectedEmployee.details.address.address2}, {selectedEmployee.details.address.city}, {selectedEmployee.details.address.country}
                             </Text>
                         </View>
@@ -48,11 +55,11 @@ const EmployeeView = ({selectedEmployee}) => {
                 </View>
             </TouchableOpacity>
             {
-                selectedEmployee.directReports.length > 0 && <DirectReportsList directReports={selectedEmployee.directReports} />
+                selectedEmployee.directReports.length > 0 && <DirectReportsList directReports={selectedEmployee.directReports} handleSelectEmployee={handleSelectEmployee} />
             }
 
             {
-                selectedEmployee.peers.length > 0 && <PeersList selectedEmployee={selectedEmployee} />
+                selectedEmployee.peers.length > 0 && <PeersList selectedEmployee={selectedEmployee} handleSelectEmployee={handleSelectEmployee} />
             }
         </>
     )
