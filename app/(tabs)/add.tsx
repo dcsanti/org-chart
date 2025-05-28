@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Modal, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function TabTwoScreen() {
@@ -20,18 +20,6 @@ export default function TabTwoScreen() {
     });
     const [modalVisible, setModalVisible] = useState(false);
     const countries = ['NZ', 'AU', 'UK'];
-
-    useEffect(() => {
-        getFromAsyncStorage('companies')
-            .then(existingCompanies => {
-                console.log("onLoad", existingCompanies);
-            });
-
-        getFromAsyncStorage('employees')
-            .then(existingCompanies => {
-                console.log("onLoad", existingCompanies);
-            });
-    }, [])
 
     const storeInAsyncStorage = async (key, value) => {
         try {
@@ -77,7 +65,6 @@ export default function TabTwoScreen() {
             name: company.trim()
         }
 
-        console.log(companyData);
         // get the existing companies from async storage and append the new company
         getFromAsyncStorage('companies')
             .then(existingCompanies => {
@@ -87,12 +74,6 @@ export default function TabTwoScreen() {
             })
             .catch(error => {
                 console.error("Error retrieving or storing companies", error);
-            });
-
-
-        getFromAsyncStorage('employees')
-            .then(existingEmployees => {
-                console.log("Existing Companies:", existingEmployees);
             });
     };
 
@@ -112,7 +93,6 @@ export default function TabTwoScreen() {
                 country: employee.address.country
             }
         };
-        console.log(newEmployee);
 
         // get the existing employees from async storage and append the new employee
         getFromAsyncStorage('employees')
