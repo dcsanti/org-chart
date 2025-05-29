@@ -59,11 +59,35 @@ export default function TabTwoScreen() {
         }
     };
 
+    const createRecord = (type, inputData) => {
+        const record = {
+            company: () => ({
+                id: Date.now(), // could be a UUID in a real app or a sequential ID from the database
+                name: inputData.name.trim()
+            }),
+            employee: () => ({
+                id: Date.now(), // could be a UUID in a real app or a sequential ID from the database
+                firstName: inputData.firstName.trim(),
+                lastName: inputData.lastName.trim(),
+                role: inputData.role.trim(),
+                reportsTo: inputData.reportsTo?.trim() || null,
+                companyId: inputData.companyId?.trim() || null,
+                address: {
+                    streetNumber: inputData.address.streetNumber.trim(),
+                    address1: inputData.address.address1.trim(),
+                    address2: inputData.address.address2.trim(),
+                    city: inputData.address.city.trim(),
+                    country: inputData.address.country
+                }
+            })
+        };
+
+        return record[type]();
+    };
+    
+
     const handleAddCompany = () => {
-        const companyData = {
-            id: Date.now(),
-            name: company.trim()
-        }
+        const companyData = createRecord('company', { name: company });
 
         // get the existing companies from async storage and append the new company
         getFromAsyncStorage('companies')
@@ -78,21 +102,7 @@ export default function TabTwoScreen() {
     };
 
     const handleAddEmployee = () => {
-        const newEmployee = {
-            id: Date.now(),
-            firstName: employee.firstName.trim(),
-            lastName: employee.lastName.trim(),
-            role: employee.role.trim(),
-            reportsTo: employee.reportsTo ? employee.reportsTo.trim() : null, // should be a valid employee ID under the same companyID
-            companyId: employee.companyId ? employee.companyId.trim() : null, // should be a valid companyID
-            address: {
-                streetNumber: employee.address.streetNumber.trim(),
-                address1: employee.address.address1.trim(),
-                address2: employee.address.address2.trim(),
-                city: employee.address.city.trim(),
-                country: employee.address.country
-            }
-        };
+        const newEmployee = createRecord('employee', employee);
 
         // get the existing employees from async storage and append the new employee
         getFromAsyncStorage('employees')
