@@ -1,31 +1,11 @@
 import Tree from "@/components/Tree";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView } from "react-native";
 import data from "../../data/data";
+import { getFromAsyncStorage, storeInAsyncStorage } from '../../utils/storage';
 
 export default function HomeScreen() {
     const [orgData, setOrgData] = useState();
-
-    const getFromAsyncStorage = async (key) => {
-        try {
-            const jsonValue = await AsyncStorage.getItem(key);
-            
-            return jsonValue != null ? JSON.parse(jsonValue) : null;
-        } catch (e) {
-            console.error("Error retrieving data from AsyncStorage", e);
-            return null;
-        }
-    };
-
-    const storeInAsyncStorage = async (key, value) => {
-        try {
-            const jsonValue = JSON.stringify(value);
-            await AsyncStorage.setItem(key, jsonValue);
-        } catch (e) {
-            console.error("Error saving data to AsyncStorage", e);
-        }
-    };
 
     // Fetch dummy data from local file so we can display some data in the tree view
     useEffect(() => {

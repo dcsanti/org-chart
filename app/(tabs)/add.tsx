@@ -1,6 +1,6 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState } from 'react';
-import { Modal, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Modal, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { getFromAsyncStorage, storeInAsyncStorage } from '../../utils/storage';
 
 export default function TabTwoScreen() {
     const [company, setCompany] = useState('');
@@ -20,26 +20,6 @@ export default function TabTwoScreen() {
     });
     const [modalVisible, setModalVisible] = useState(false);
     const countries = ['NZ', 'AU', 'UK'];
-
-    const storeInAsyncStorage = async (key, value) => {
-        try {
-            const jsonValue = JSON.stringify(value);
-            await AsyncStorage.setItem(key, jsonValue);
-        } catch (e) {
-            console.error("Error saving data to AsyncStorage", e);
-        }
-    };
-
-    const getFromAsyncStorage = async (key) => {
-        try {
-            const jsonValue = await AsyncStorage.getItem(key);
-            
-            return jsonValue != null ? JSON.parse(jsonValue) : null;
-        } catch (e) {
-            console.error("Error retrieving data from AsyncStorage", e);
-            return null;
-        }
-    };
 
     const updateEmployee = (field, value) => {
         if (field.includes('.')) {
@@ -131,12 +111,13 @@ export default function TabTwoScreen() {
                         placeholderTextColor="#888"
                     />
                 </View>
-                <Pressable 
+                <TouchableOpacity
                     style={styles.submitButton} 
                     onPress={handleAddCompany}
-                    disabled={!company.trim()}>
+                    disabled={!company.trim()}
+                >
                     <Text style={styles.buttonText}>Add Company</Text>
-                </Pressable>
+                </TouchableOpacity>
 
                 <View style={styles.formSection}>
                     <Text style={styles.sectionTitle}>Employee Details</Text>
@@ -185,19 +166,21 @@ export default function TabTwoScreen() {
                     ))}
                     
                     <Text style={styles.label}>Country</Text>
-                    <Pressable 
+                    <TouchableOpacity 
                         style={styles.dropdownButton}
-                        onPress={() => setModalVisible(true)}>
+                        onPress={() => setModalVisible(true)}
+                    >
                         <Text>{employee.address.country}</Text>
-                    </Pressable>
+                    </TouchableOpacity>
                 </View>
                 
-                <Pressable 
+                <TouchableOpacity 
                     style={styles.submitButton} 
                     onPress={handleAddEmployee}
-                    disabled={!employee.companyId.trim() || !employee.reportsTo.trim() || !employee.firstName.trim() || !employee.lastName.trim()}>
+                    disabled={!employee.companyId.trim() || !employee.reportsTo.trim() || !employee.firstName.trim() || !employee.lastName.trim()}
+                >
                     <Text style={styles.buttonText}>Add Employee</Text>
-                </Pressable>
+                </TouchableOpacity>
             </ScrollView>
 
             <Modal
