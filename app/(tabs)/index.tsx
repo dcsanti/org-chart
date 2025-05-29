@@ -56,7 +56,8 @@ export default function HomeScreen() {
                 // update the data array in AsyncStorage
                 await storeInAsyncStorage(key, data);
                 try {
-                    const response = await fetch(`https://example.com/api/${key}endpoint`, {
+                    const urlEndpoint = `https://example.com/api/${key}endpoint`;
+                    const response = await fetch(urlEndpoint, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
