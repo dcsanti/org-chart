@@ -1,7 +1,7 @@
 import Tree from "@/components/Tree";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
-import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
+import { SafeAreaView, ScrollView } from "react-native";
 import data from "../../data/data";
 
 export default function HomeScreen() {
@@ -43,26 +43,25 @@ export default function HomeScreen() {
     useEffect(() => {
         // every 5 seconds, query the async storage and post the data to an API endpoint
         const interval = setInterval(() => {
-            const postCompaniesData = async () => {
-                const companies = await getFromAsyncStorage("companies");
-                if (!companies) {
-                    console.warn("No companies data found in AsyncStorage");
+            const postData = async (key) => {
+                const data = await getFromAsyncStorage(key);
+                if (!data) {
+                    console.warn("No data data found in AsyncStorage");
                     return;
                 }
 
-                // get the first element of the companies array
-                const firstCompany = companies.shift();
+                // get the first element of the data array
+                const firstData = data.shift();
 
-                // update the companies array in AsyncStorage
-                await storeInAsyncStorage('companies', companies);
-
+                // update the data array in AsyncStorage
+                await storeInAsyncStorage(key, data);
                 try {
-                    const response = await fetch("https://example.com/api/endpoint", {
+                    const response = await fetch(`https://example.com/api/${key}endpoint`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
                         },
-                        body: JSON.stringify(firstCompany), // 
+                        body: JSON.stringify(firstData),
                     });
 
                     if (!response.ok) {
@@ -72,44 +71,14 @@ export default function HomeScreen() {
                     const data = await response.json();
                     console.log("Data posted successfully:", data);
                 } catch (error) {
-                    console.error("Error posting data:", error);
+                    // console.error("Error posting data:", error);
                 }
             };
 
-            const postEmployeesData = async () => {
-                const employees = await getFromAsyncStorage("employees");
-                if (!employees) {
-                    console.warn("No employees data found in AsyncStorage");
-                    return;
-                }
-
-                // get the first element of the employees array
-                const firstEmployee = employees.shift();
-
-                // update the employees array in AsyncStorage
-                await storeInAsyncStorage('employees', employees);
-                try {
-                    const response = await fetch("https://example.com/api/endpoint", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify(firstEmployee), //
-                    });
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    const data = await response.json();
-                    console.log("Data posted successfully:", data);
-                } catch (error) {
-                    console.error("Error posting data:", error);
-                }
-            };
-
-            postEmployeesData();
-            postCompaniesData();
-        }, 5 * 1000); // trigger call every 5 seconds
-        return () => clearInterval(interval); // Cleanup on unmount
+            postData('companies');
+            postData('employees');
+        }, 20 * 1000); // trigger call every 5 seconds
+        return () => clearInterval(interval); // cleanup on unmount
     }, []);
 
     return (
@@ -122,22 +91,3 @@ export default function HomeScreen() {
         </SafeAreaView>
     );
 }
-
-const styles = StyleSheet.create({
-    titleContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 8,
-    },
-    stepContainer: {
-        gap: 8,
-        marginBottom: 8,
-    },
-    reactLogo: {
-        height: 178,
-        width: 290,
-        bottom: 0,
-        left: 0,
-        position: 'absolute',
-    },
-});
