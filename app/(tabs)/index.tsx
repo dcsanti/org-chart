@@ -77,7 +77,7 @@ export default function HomeScreen() {
 
             postData('companies');
             postData('employees');
-        }, 20 * 1000); // trigger call every 5 seconds
+        }, 5 * 1000); // trigger call every 5 seconds
         return () => clearInterval(interval); // cleanup on unmount
     }, []);
 
